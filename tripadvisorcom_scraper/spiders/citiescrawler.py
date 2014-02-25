@@ -1,4 +1,4 @@
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from scrapy.selector import HtmlXPathSelector
 from scrapy.http.request import Request
 from scrapy.conf import settings
@@ -10,7 +10,7 @@ from tripadvisorcom_scraper.spiders.crawlerhelper import clean_parsed_string
 import pymongo
 import re
 
-class CitiesCrawler(BaseSpider):
+class CitiesCrawler(Spider):
 
     name = 'cities'
     allowed_domains = ['tripadvisor.com',]

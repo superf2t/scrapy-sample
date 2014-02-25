@@ -1,4 +1,4 @@
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from scrapy.selector import HtmlXPathSelector
 from scrapy.http.request import Request
 from scrapy.conf import settings
@@ -12,7 +12,7 @@ import pymongo
 import re
 import time
 
-class ReviewsCrawler(BaseSpider):
+class ReviewsCrawler(Spider):
 
     name = 'reviews'
     allowed_domains = ['tripadvisor.com',]
@@ -38,8 +38,8 @@ class ReviewsCrawler(BaseSpider):
         # will crawl for hotels only in New York City
 
 
-        for rec in self.collection.find({'item_type' : 'hotel'}):
-            yield rec['url']
+        for rec in self.collection.find({'item_type' : 'hotels'}):
+		yield rec['url']
 
     def parse(self, response):
 
@@ -53,7 +53,7 @@ class ReviewsCrawler(BaseSpider):
 
         review_url = clean_parsed_string(get_parsed_string(
             hxs, '//div[contains(@class, "basic_review first")]//a/@href'))
-
+	print 'abcdefghijklmnopqrstuvwxyz'
         if review_url:
             yield Request(url_start + review_url, self.parse)
 
@@ -102,3 +102,8 @@ class ReviewsCrawler(BaseSpider):
         if next_page_url and len(next_page_url) > 0:
             next_page = url_start + next_page_url
             yield Request(next_page, self.parse)
+	
+	def parse_details(self, response):
+        	item = response.meta['item']
+        	# populate more `item` fields
+        	return item

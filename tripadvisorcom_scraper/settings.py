@@ -11,7 +11,7 @@ MONGODB_PORT = 27017
 MONGODB_DB = 'tadb'
 MONGODB_COLLECTION = 'crawldata'
 
-ITEM_PIPELINES = ['tripadvisorcom_scraper.pipelines.TripadvisorcomScraperPipeline',]
+ITEM_PIPELINES = {'tripadvisorcom_scraper.pipelines.TripadvisorcomScraperPipeline':100,}
 
 # Get country information from tripadvisor.com site-map.
 # If site-map link changes, update the link

@@ -1,5 +1,5 @@
-from scrapy.spider import BaseSpider
-from scrapy.selector import HtmlXPathSelector
+from scrapy.spider import Spider
+from scrapy.selector import Selector
 from scrapy.http.request import Request
 from scrapy.conf import settings
 
@@ -10,7 +10,7 @@ from tripadvisorcom_scraper.spiders.crawlerhelper import clean_parsed_string
 import pymongo
 import re
 
-class CountriesCrawler(BaseSpider):
+class CountriesCrawler(Spider):
 
     name = 'countries'
     allowed_domains = ['tripadvisor.com',]
@@ -27,7 +27,7 @@ class CountriesCrawler(BaseSpider):
 
         url_start = 'http://www.tripadvisor.com'
         hxs = HtmlXPathSelector(response)
-        country_texts = hxs.select('//h3/a/text()').extract()
+        country_texts = ('//h3/a/text()').xpath()
         country_urls = hxs.select('//h3/a/@href').extract()
         countries = zip(country_texts, country_urls)
 
